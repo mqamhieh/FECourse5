@@ -1,0 +1,150 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.container {
+    background: red;
+}
+
+.main-section {
+    background: url('../images/background.jpg');
+    background-size: cover;
+}
+
+.content-wrapper {
+    max-width: 1200px;
+    width: 92%;
+    margin: auto;
+}
+
+header {
+    padding-top: 30px;
+
+}
+
+.main-image {
+    height: calc(100vh - 220px);
+}
+
+.main-image .text h1 {
+    margin: 0 0 14px 0;
+    font-size: 42px;
+    font-weight: 100;
+}
+
+.main-image .text {
+    float: left;
+    width: 50%;
+    height: 100%;
+    color: #FFF;
+    position: relative;
+}
+
+.main-image .phone-wrapper {
+    float: left;
+    height: 100%;
+    width: 50%;
+    position: relative;
+}
+
+.main-image .phone-wrapper .phone {
+    position: absolute;
+    background: url("../images/phone.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    width: 90%;
+    height: 790px;
+    bottom: -160px;
+    right: 0;
+}
+
+.main-image .text-wrapper {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.main-image .text-wrapper div {
+    width: 80%;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+    .main-image .text {
+        width: 100%;
+        height: auto;
+        margin-top: 100px;
+        text-align: center;
+        text-shadow: 0 1px 0px rgba(0, 0, 0, 0.3);
+    }
+
+    .main-image .text-wrapper div {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .main-section {
+        background-position-y: center;
+        background-position-x: 72%;
+    }
+
+    .main-image .phone-wrapper {
+        width: 100%;
+    }
+
+    .main-image .phone-wrapper .phone {
+        width: 73%;
+        bottom: -60px;
+        right: 0;
+    }
+}
+
+
+@media only screen and (max-width: 600px) {
+    .main-image .phone-wrapper .phone {
+        width: 90%;
+        bottom: 0px;
+    }
+
+    .main-section {
+        background-position-x: 68%;
+    }
+}
+
+
+@media only screen and (min-width: 2000px) {
+
+    .main-section {
+        background-position: center;
+    }
+
+    .content-wrapper {
+        max-width: 2600px;
+    }
+
+    .main-image {
+        height: calc(100vh - 400px);
+    }
+
+    .main-image .phone-wrapper .phone {
+        height: 1300px;
+        bottom: -250px;
+    }
+
+    .main-image .text-wrapper div {
+        font-size: 24px;
+        line-height: 35px;
+    }
+
+    .main-image .text h1 {
+        font-size: 82px;
+    }
+}
