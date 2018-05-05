@@ -18,8 +18,14 @@
         };
 
         $(document).ready(function () {
-            $("button").on("click", function (event) {
-                console.log("I am here from click in jQuery");
+            $("input").on("focus", function () {
+                $(this).parent().addClass("highlighted")
+            });
+
+            $("input").on("blur", function () {
+                if ($(this).val().trim() === "") {
+                    $(this).parent().removeClass("highlighted");
+                }
             });
         });
 
@@ -84,11 +90,37 @@
             padding: 10px 0;
             width: 100%;
             outline: none;
+            position: relative;
+            background: none;
+            z-index: 1;
         }
 
         .input-wrapper {
             padding: 15px 0;
+            position: relative;
         }
+
+        .input-wrapper label {
+            position: absolute;
+            top: 50%;
+            font-size: 14px;
+            transform: translateY(-50%);
+            color: #bac1c9;
+            transition: all 0.1s ease-out;
+        }
+
+        .input-wrapper.highlighted input[type='email'],
+        .input-wrapper.highlighted input[type='text'],
+        .input-wrapper.highlighted input[type='password'] {
+            border-bottom: 2px solid #6498fe;
+        }
+
+        .input-wrapper.highlighted label {
+            font-size: 12px;
+            color: #6498fe;
+            top: 10px;
+        }
+
 
     </style>
 </head>
@@ -98,14 +130,14 @@
         <div class="content">
             <form>
                 <div class="input-wrapper">
+                    <label>Email</label>
                     <input type="email"
-                           name="email"
-                           placeholder="Email">
+                           name="email">
                 </div>
                 <div class="input-wrapper">
+                    <label>Password</label>
                     <input type="password"
-                           name="email"
-                           placeholder="Password"
+                           name="password"
                     >
                 </div>
                 <button type="submit">
