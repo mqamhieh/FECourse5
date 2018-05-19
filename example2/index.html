@@ -6,6 +6,38 @@
     <script type="text/javascript" src="libs/jquery-3.3.1.min.js"></script>
     <script type="text/javascript">
 
+        var allowDrop = function (event) {
+            event.preventDefault();
+        };
+
+        var onFileDropped = function (event) {
+            var files = event.dataTransfer.files;
+            previewFile(files[0]);
+            event.preventDefault();
+        };
+
+        var onFileSelected = function (event) {
+            var files = event.target.files;
+            previewFile(files[0]);
+        };
+
+        var previewFile = function (file) {
+            var fr = new FileReader();
+
+            fr.onload = function (result) {
+                $(".img_preview").show();
+
+                try {
+                    localStorage['user_image'] = fr.result;
+                }
+                catch (e) {}
+
+                $(".img_preview img").attr("src", fr.result);
+            };
+
+            fr.readAsDataURL(file);
+        };
+
         var validateInput = function (input) {
             var isValid = true;
 
@@ -55,10 +87,31 @@
             var form = $(event.target);
             var isValid = validateForm(form);
 
-            if (!isValid) {
-                event.preventDefault();
-                return false;
+            if (isValid) {
+                $.post("../simple_server/login.json", {
+                    email: $("input[name='email']").val(),
+                    password: $("input[name='password']").val(),
+                    source: 'web'
+                }, function (userData) {
+                    console.log(userData);
+                    $(".form-wrapper").hide();
+                    $(".loading-wrapper").stop();
+                    $(".loading-wrapper").addClass("go-left");
+                    $(".welcome-wrapper").fadeIn(500);
+                    $(".welcome-wrapper #username").text(userData.username);
+
+                    if (localStorage['user_image']) {
+                        $(".img_preview").show();
+                        $(".img_preview img").attr("src", localStorage['user_image']);
+                    }
+                });
+                $(".form-wrapper").addClass("go-left");
+                // $(".form-wrapper").hide();
+                $(".loading-wrapper").fadeIn(500);
             }
+
+            event.preventDefault();
+            return false;
         };
 
 
@@ -96,7 +149,10 @@
             background: #fff;
             margin: 15px auto;
             width: 420px;
+            min-height: 380px;
             box-shadow: 0 1px 9px -3px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            position: relative;
         }
 
         .title {
@@ -111,6 +167,9 @@
 
         .content {
             padding: 30px;
+            position: relative;
+            left: 0;
+            opacity: 1;
         }
 
         button {
@@ -189,34 +248,100 @@
             opacity: 0.8;
         }
 
+        .content.go-left {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            left: -100%;
+            opacity: 0;
+            background: white;
+            transition: all 0.3s ease-out;
+        }
+
+        .content-body {
+            position: relative;
+        }
+
+        .loader {
+            font-size: 48px;
+            padding-bottom: 30px;
+            padding-top: 53px;
+            color: #6498fe;
+        }
+
+        .loading-wrapper {
+            display: none;
+            text-align: center;
+            color: #666;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .welcome-wrapper {
+            display: none;
+        }
+
+        .img_preview {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="title">Welcome Back</div>
-        <div class="content">
-            <form method="post" onsubmit="return onFormSubmit(event);" novalidate>
-                <div class="input-wrapper">
-                    <label>Email</label>
-                    <input type="email"
-                           name="email">
-                    <div class="error">Invalid</div>
+        <div class="content-body">
+            <div class="content loading-wrapper">
+                <div class="loading">
+                    <div class="loader">
+                        <i class="fa fa-chrome fa-spin"></i>
+                    </div>
+                    Getting you in to your account...
                 </div>
-                <div class="input-wrapper">
-                    <label>Password</label>
-                    <input type="password"
-                           name="password"
-                    >
-                    <div class="error">Invalid</div>
+            </div>
+            <div class="content welcome-wrapper"
+                 ondragover="allowDrop(event);"
+                 ondrop="onFileDropped(event);">
+                <h3>Welcome <span id="username"></span>!</h3>
+                <div>Upload you profile photo</div>
+                <form method="post" enctype="application/x-www-form-urlencoded">
+                    <div class="input-wrapper">
+                        <input type="file"
+                               onchange="onFileSelected(event)"
+                               name="profile_photo">
+                    </div>
+                    <div class="img_preview">
+                        <img width="100%">
+                    </div>
+                    <button type="submit">
+                        Upload
+                    </button>
+                </form>
+            </div>
+            <div class="content form-wrapper">
+                <form method="post" action="loggedin.html" onsubmit="return onFormSubmit(event);" novalidate>
+                    <div class="input-wrapper">
+                        <label><i class="fa fa-envelope"></i> Email</label>
+                        <input type="email"
+                               name="email">
+                        <div class="error">Invalid</div>
+                    </div>
+                    <div class="input-wrapper">
+                        <label><i class="fa fa-key"></i> Password</label>
+                        <input type="password"
+                               name="password"
+                        >
+                        <div class="error">Invalid</div>
+                    </div>
+                    <button type="submit">
+                        Login
+                    </button>
+                </form>
+                <div class="form-redirect">
+                    Don't have an account? <a href="#">Sign up</a>
                 </div>
-                <button type="submit">
-                    Login
-                </button>
-            </form>
-            <div class="form-redirect">
-                Don't have an account? <a href="#">Sign up</a>
             </div>
         </div>
     </div>
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
 </body>
 </html>
