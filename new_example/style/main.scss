@@ -1,9 +1,54 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+header {
+  .nav-item {
+    font-size: 12px;
+
+    @include media-breakpoint-up(lg) {
+      padding: 0 30px;
+
+      .nav-link {
+        color: white !important;
+        padding: 0 0 10px !important;
+      }
+
+      &.active {
+        .nav-link {
+          border-bottom: 1px solid;
+        }
+      }
+    }
+  }
+}
+
 .main-section {
   .main-image {
     height: 100vh;
-    background: black;
+    background: #555;
     color: white;
+  }
+}
+
+.actions-section {
+  background: #000;
+
+  a {
+    color: #fff;
+    padding: 20px 0;
+  }
+}
+
+.about-section {
+  padding-top: 60px;
+  padding-bottom: 60px;
+
+  @include media-breakpoint-up(sm) {
+    .about-text {
+      border-right: 2px dotted #ccc;
+
+      p {
+        padding-right: 15%;
+      }
+    }
   }
 }
