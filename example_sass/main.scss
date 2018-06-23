@@ -1,2 +1,11 @@
+@import "../node_modules/bootstrap/scss/bootstrap-grid.scss";
+
 @import "styles/_colors";
 @import "styles/_body";
+
+.item {
+  background: #6498fe;
+  text-align: center;
+  padding: 10px;
+  color: #fff;
+}

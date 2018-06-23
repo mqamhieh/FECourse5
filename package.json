@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "sass": "node-sass --output-style=compressed -o example_sass/ example_sass/main.scss",
+    "sass": "node-sass --output-style=compressed -o style/ style/main.scss",
     "sass:watch": "npm run sass && npm run sass -- --watch --recursive"
   },
   "repository": {
